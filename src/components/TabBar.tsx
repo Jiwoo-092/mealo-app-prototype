@@ -2,13 +2,12 @@ import { Link, usePathname } from '../lib/router';
 import Icon from './Icon';
 
 /**
- * 하단 플로팅 탭바 — Figma 'tab bar' (196×60, 아이콘 32)
+ * 하단 플로팅 탭바 — Figma 'tab bar' (136×60 — 홈 · 아카이브 두 개, 아이콘 32)
  * 선택된 탭은 fill 아이콘 + 다크 배경, 나머지는 line 아이콘.
  */
 const TABS = [
-  { to: '/archive/folders', label: '아카이빙', icon: 'box', active: 'box_fill', match: ['/archive'] },
   { to: '/home', label: '홈', icon: 'home_light', active: 'home_fill', match: ['/home', '/polaroids'] },
-  { to: '/light-color', label: '전등 컬러', icon: 'lamp_light', active: 'lamp_fill', match: ['/light-color'] },
+  { to: '/archive/folders', label: '아카이빙', icon: 'box', active: 'box_fill', match: ['/archive'] },
 ];
 
 /** inArtboard: 홈처럼 375×812 아트보드 안에 그릴 때(디자인 좌표 top 727) */

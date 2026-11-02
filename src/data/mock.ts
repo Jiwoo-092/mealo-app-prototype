@@ -30,7 +30,8 @@ export interface StickerPlacement {
   w: number; // 컴포넌트 폭 (기본 98)
 }
 
-export type MealDesignId = 'burger' | 'salmon' | 'pasta';
+/** burger·salmon·pasta: 홈의 하루(9/20) / a1~a6: 아카이브(키워드 폴더·캘린더) 사진 — Figma 'image archive' */
+export type MealDesignId = 'burger' | 'salmon' | 'pasta' | 'a1' | 'a2' | 'a3' | 'a4' | 'a5' | 'a6';
 
 export interface MealDesign {
   photo: string;
@@ -63,6 +64,55 @@ export const MEAL_DESIGNS: Record<MealDesignId, MealDesign> = {
       { keyword: 'discovery', x: 21, y: 209, w: 98 },
     ],
   },
+  // ---- 아카이브 사진 6장 (스티커 위치·키워드는 사진마다 다르게) ----
+  a1: {
+    photo: '/assets/food/archive-1.webp',
+    photoAlt: '친구들이 함께 포크를 뻗는 햄·소시지 플래터',
+    stickers: [
+      { keyword: 'relation', x: 146, y: 96, w: 82 },
+      { keyword: 'taste', x: 10, y: 208, w: 96 },
+    ],
+  },
+  a2: {
+    photo: '/assets/food/archive-2.webp',
+    photoAlt: '야자수 잎 사이 햇살 아래 놓인 포케 볼 두 그릇과 레몬 워터',
+    stickers: [
+      { keyword: 'health', x: 132, y: 22, w: 96 },
+      { keyword: 'discovery', x: 12, y: 210, w: 94 },
+    ],
+  },
+  a3: {
+    photo: '/assets/food/archive-3.webp',
+    photoAlt: '친구들과 나눠 먹는 치킨윙·감자·튀김 플래터와 칵테일',
+    stickers: [
+      { keyword: 'taste', x: 8, y: 28, w: 90 },
+      { keyword: 'relation', x: 140, y: 170, w: 88 },
+    ],
+  },
+  a4: {
+    photo: '/assets/food/archive-4.webp',
+    photoAlt: '반숙 계란 프라이를 올린 바질 고기 덮밥',
+    stickers: [
+      { keyword: 'achievement', x: 128, y: 30, w: 96 },
+      { keyword: 'taste', x: 10, y: 206, w: 94 },
+    ],
+  },
+  a5: {
+    photo: '/assets/food/archive-5.webp',
+    photoAlt: '오렌지 주스와 함께한 포카치아 브런치 샌드위치',
+    stickers: [
+      { keyword: 'discovery', x: 12, y: 118, w: 86 },
+      { keyword: 'taste', x: 142, y: 172, w: 90 },
+    ],
+  },
+  a6: {
+    photo: '/assets/food/archive-6.webp',
+    photoAlt: '훈제 연어 브루스케타와 채소 샐러드',
+    stickers: [
+      { keyword: 'health', x: 12, y: 24, w: 92 },
+      { keyword: 'achievement', x: 138, y: 168, w: 90 },
+    ],
+  },
 };
 
 export type Tempo = 'slow' | 'stable' | 'fast';
@@ -80,6 +130,8 @@ export interface Polaroid {
   time: string;
   design: MealDesignId;
   keywords: KeywordId[];
+  /** 스티커 배치 (없으면 사진 디자인 기본값) */
+  stickers?: StickerPlacement[];
   message: MessagePart[][];
   tempo: Tempo;
   minutes: number;
@@ -102,6 +154,37 @@ const MESSAGES: Record<MealDesignId, MessagePart[][]> = {
     ['익숙한 재료인데 색다르죠. '],
     [{ text: '이런 맛있는 식사는', bg: '#FF9B6D' }, ' 오래 기억해둬요.'],
   ],
+  // ---- 아카이브 사진 6장 — 사진 분위기에 맞춘 밀로 한마디 (기존과 비슷한 길이) ----
+  a1: [
+    ['오늘은 ', { text: '함께 나눠 먹은', bg: '#FD595A', color: '#FFFFFF' }, ' 한 끼였네요.'],
+    ['접시가 비워지는 동안'],
+    [{ text: '웃음은 더 채워졌을', bg: '#FF9B6D' }, ' 거예요.'],
+  ],
+  a2: [
+    ['오늘은 ', { text: '초록빛 가득한 한 끼', bg: '#A8F1BF' }, '였네요.'],
+    ['햇살에 레몬 향까지 더해져'],
+    [{ text: '새로 찾은 맛집', bg: '#B0C4FF' }, '으로 기억해둬요.'],
+  ],
+  a3: [
+    ['오늘은 ', { text: '바삭한 소리', bg: '#FF9B6D' }, '가 가득했네요.'],
+    ['서로 한 입씩 건네던 순간이'],
+    [{ text: '오늘의 하이라이트', bg: '#FD595A', color: '#FFFFFF' }, '였을 거예요.'],
+  ],
+  a4: [
+    ['오늘은 ', { text: '직접 차린 한 상', bg: '#FFE481' }, '이네요.'],
+    ['노른자를 톡 터뜨리는 순간'],
+    [{ text: '맛있는 소리', bg: '#FF9B6D' }, '가 절로 났겠어요.'],
+  ],
+  a5: [
+    ['오늘은 ', { text: '새로운 브런치 카페', bg: '#B0C4FF' }, '에 갔네요.'],
+    ['오렌지 주스와 바삭한 빵 덕분에'],
+    [{ text: '하루가 산뜻하게', bg: '#FF9B6D' }, ' 시작됐겠어요.'],
+  ],
+  a6: [
+    ['오늘은 ', { text: '싱그러운 채소', bg: '#A8F1BF' }, '로 채웠네요.'],
+    ['한 입 한 입 천천히 즐긴 만큼'],
+    [{ text: '스스로를 잘 챙긴', bg: '#FFE481' }, ' 하루예요.'],
+  ],
 };
 
 /** 말풍선 안 텍스트 박스 위치 (222×81 말풍선 기준, Figma) */
@@ -109,6 +192,12 @@ export const MESSAGE_BOX: Record<MealDesignId, { left: number; top: number; widt
   burger: { left: 37, top: 14, width: 159 },
   salmon: { left: 36.8, top: 13.8, width: 158 },
   pasta: { left: 31.8, top: 13.8, width: 177 },
+  a1: { left: 31.8, top: 13.8, width: 177 },
+  a2: { left: 31.8, top: 13.8, width: 177 },
+  a3: { left: 31.8, top: 13.8, width: 177 },
+  a4: { left: 31.8, top: 13.8, width: 177 },
+  a5: { left: 31.8, top: 13.8, width: 177 },
+  a6: { left: 31.8, top: 13.8, width: 177 },
 };
 
 /** 평균 식사 시간 (분) — time 게이지의 파란 '평균' 호 */
@@ -118,15 +207,22 @@ const BASE: Record<MealDesignId, Pick<Polaroid, 'title' | 'tempo' | 'minutes' | 
   burger: { title: '친구와 신나게 만든 수제버거', tempo: 'stable', minutes: 42, memo: '' },
   salmon: { title: '건강하고 맛있는 연어 스테이크', tempo: 'stable', minutes: 42, memo: '' },
   pasta: { title: '새로운 레시피 고추장 파스타', tempo: 'fast', minutes: 16, memo: '' },
+  a1: { title: '친구들과 나눠 먹은 플래터', tempo: 'slow', minutes: 58, memo: '' },
+  a2: { title: '햇살 아래 상큼한 포케 볼', tempo: 'stable', minutes: 35, memo: '' },
+  a3: { title: '친구들과 즐긴 치킨윙 파티', tempo: 'stable', minutes: 47, memo: '' },
+  a4: { title: '정성껏 차린 바질 고기 덮밥', tempo: 'stable', minutes: 28, memo: '' },
+  a5: { title: '햇살 가득한 브런치 샌드위치', tempo: 'slow', minutes: 51, memo: '' },
+  a6: { title: '상큼한 연어 샐러드 브런치', tempo: 'slow', minutes: 45, memo: '' },
 };
 
-function meal(id: string, design: MealDesignId, date: string, time: string): Polaroid {
+function meal(id: string, design: MealDesignId, date: string, time: string, stickers?: StickerPlacement[]): Polaroid {
   return {
     id,
     design,
     date,
     time,
-    keywords: MEAL_DESIGNS[design].stickers.map((s) => s.keyword),
+    stickers,
+    keywords: (stickers ?? MEAL_DESIGNS[design].stickers).map((s) => s.keyword),
     message: MESSAGES[design],
     ...BASE[design],
   };
@@ -150,6 +246,7 @@ export const POLAROIDS: Polaroid[] = [
 ];
 
 /* ---------- 아카이브 ---------- */
+// (오른쪽 아래 스티커는 '자세히 보기 >'를 가리지 않게 조금 위에 둔다)
 
 /** 키워드 폴더 색 — Figma 'archive folder' (뒤 종이 2장 + 폴라로이드) */
 export const FOLDER_TONES: Record<KeywordId, { back: string; mid: string; card: string }> = {
@@ -160,19 +257,25 @@ export const FOLDER_TONES: Record<KeywordId, { back: string; mid: string; card: 
   discovery: { back: '#d8cbe8', mid: '#e2d9ee', card: '#ead9ff' },
 };
 
-/** 키워드 폴더 안 썸네일 — 사진은 추후 교체 예정이라 일단 하나로 통일 */
-export const ARCHIVE_THUMB = '/assets/food/meal-3.webp';
+const ARCHIVE_PHOTOS: MealDesignId[] = ['a1', 'a2', 'a3', 'a4', 'a5', 'a6'];
 
-/** 키워드별로 상세에 쓸 식사 디자인 (해당 키워드 스티커가 붙은 식사) */
-const KEYWORD_DESIGNS: Record<KeywordId, MealDesignId[]> = {
-  relation: ['burger'],
-  taste: ['pasta'],
-  health: ['salmon'],
-  achievement: ['burger', 'salmon'],
-  discovery: ['pasta'],
-};
+/**
+ * 사진 기본 스티커 2장 중 한 장을 원하는 키워드로 바꾼 배치
+ * (폴더 속 사진엔 그 폴더 키워드 스티커가 꼭 붙어 있게 / 캘린더는 그날 색 점의 키워드로)
+ */
+function withKeywords(design: MealDesignId, keywords: KeywordId[]): StickerPlacement[] {
+  const base = MEAL_DESIGNS[design].stickers;
+  const ks = [...keywords];
+  // 기본 스티커 중 이미 원하는 키워드인 건 유지하고, 나머지 자리에 남은 키워드를 채운다
+  const keep = base.map((b) => (ks.includes(b.keyword) ? b.keyword : null));
+  keep.forEach((k) => k && ks.splice(ks.indexOf(k), 1));
+  return base.map((b, i) => {
+    const k = keep[i] ?? ks.shift() ?? b.keyword;
+    return { ...b, keyword: k };
+  });
+}
 
-/** 키워드 폴더 속 폴라로이드 (키워드당 6장, 날짜·시간 겹치지 않게) */
+/** 키워드 폴더 속 폴라로이드 (키워드당 6장 — 사진 6장을 한 장씩, 날짜·시간 겹치지 않게) */
 const ARCHIVE_SLOTS: Record<KeywordId, [string, string][]> = {
   relation: [['2026-11-13', '19:24'], ['2026-11-08', '12:40'], ['2026-11-02', '18:05'], ['2026-10-27', '13:15'], ['2026-10-19', '20:12'], ['2026-10-11', '11:48']],
   taste: [['2026-11-12', '12:30'], ['2026-11-06', '19:40'], ['2026-10-30', '08:55'], ['2026-10-24', '18:20'], ['2026-10-15', '13:05'], ['2026-10-07', '20:35']],
@@ -181,10 +284,15 @@ const ARCHIVE_SLOTS: Record<KeywordId, [string, string][]> = {
   discovery: [['2026-11-12', '20:10'], ['2026-11-05', '13:35'], ['2026-11-01', '09:25'], ['2026-10-22', '19:55'], ['2026-10-13', '12:50'], ['2026-10-03', '18:15']],
 };
 
-export const ARCHIVE_POLAROIDS: Polaroid[] = (Object.keys(ARCHIVE_SLOTS) as KeywordId[]).flatMap((k) =>
+const FOLDER_KEYS = Object.keys(ARCHIVE_SLOTS) as KeywordId[];
+
+export const ARCHIVE_POLAROIDS: Polaroid[] = FOLDER_KEYS.flatMap((k, f) =>
   ARCHIVE_SLOTS[k].map(([date, time], i) => {
-    const designs = KEYWORD_DESIGNS[k];
-    return meal(`a-${k}-${i + 1}`, designs[i % designs.length], date, time);
+    // 폴더마다 사진 순서를 돌려서 폴더별로 첫 사진이 다르게
+    const design = ARCHIVE_PHOTOS[(i + f) % ARCHIVE_PHOTOS.length];
+    const base = MEAL_DESIGNS[design].stickers.map((s) => s.keyword);
+    const other = base.find((b) => b !== k) ?? base[0];
+    return meal(`a-${k}-${i + 1}`, design, date, time, withKeywords(design, [k, other]));
   }),
 );
 
@@ -214,20 +322,46 @@ export const CALENDAR_DOTS: Record<number, string[]> = {
   12: ['#ff6364', '#b0c4ff'],
   13: ['#ff6364', '#ff9b6d', '#fdff82'],
 };
-/** 날짜별 모음에 보여줄 폴라로이드 — 사진·정보는 추후 교체, 일단 홈의 세 끼로 */
-export const CALENDAR_DAY_ITEMS = ['p01', 'p02', 'p03'];
+/** 캘린더 점 색 → 키워드 */
+const DOT_KEYWORD: Record<string, KeywordId> = {
+  '#ff6364': 'relation',
+  '#ff9b6d': 'taste',
+  '#fdff82': 'achievement',
+  '#a8f1bf': 'health',
+  '#b0c4ff': 'discovery',
+};
+
+/** 끼니 시간 (아침·점심·저녁) — 날짜마다 조금씩 다르게 */
+const DAY_TIMES = [
+  ['08:20', '12:35', '19:10'],
+  ['09:05', '13:20', '18:45'],
+  ['08:45', '12:10', '20:05'],
+  ['10:15', '13:50', '19:30'],
+];
+
+/** 고정 시드 난수 — 새로고침해도 같은 '랜덤' 배치 */
+function seeded(n: number) {
+  const x = Math.sin(n * 9301 + 49297) * 233280;
+  return x - Math.floor(x);
+}
+
+/**
+ * 캘린더 날짜별 폴라로이드 — 아카이브 사진 6장을 날짜마다 랜덤으로 (색 점 개수만큼 끼니)
+ * 스티커는 그날 색 점의 키워드 중 랜덤 2개
+ */
+export const CALENDAR_POLAROIDS: Polaroid[] = Object.entries(CALENDAR_DOTS).flatMap(([dayStr, dots]) => {
+  const day = Number(dayStr);
+  const date = `${CALENDAR.year}-${String(CALENDAR.month).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
+  const keys = dots.map((c) => DOT_KEYWORD[c]);
+  const times = DAY_TIMES[day % DAY_TIMES.length];
+  // 하루 안에서는 사진이 겹치지 않게 섞어서 앞에서부터
+  const photos = [...ARCHIVE_PHOTOS].sort((a, b) => seeded(day * 31 + a.charCodeAt(1)) - seeded(day * 31 + b.charCodeAt(1)));
+  return dots.map((_, i) => {
+    const pick = [...keys].sort((a, b) => seeded(day * 7 + i * 3 + a.length) - seeded(day * 7 + i * 3 + b.length + 1));
+    const two = [pick[0], pick.find((k) => k !== pick[0]) ?? pick[0]];
+    return meal(`c-${dayStr.padStart(2, '0')}-${i + 1}`, photos[i], date, times[i], withKeywords(photos[i], two));
+  });
+});
 
 /** 전시 기준 '오늘' (캘린더 강조용) */
 export const DEMO_TODAY = '2026-09-23';
-
-/** 전등 컬러 프리셋 (더미) */
-export const LIGHT_PRESETS = [
-  { id: 'warm', label: '웜', color: '#ffb84d' },
-  { id: 'peach', label: '피치', color: '#ff9a8a' },
-  { id: 'mint', label: '민트', color: '#7fd8be' },
-  { id: 'sky', label: '스카이', color: '#7fb8ff' },
-  { id: 'lavender', label: '라벤더', color: '#b9a3ff' },
-  { id: 'lemon', label: '레몬', color: '#ffe46b' },
-  { id: 'rose', label: '로즈', color: '#ff7aa8' },
-  { id: 'white', label: '화이트', color: '#fff8ea' },
-] as const;

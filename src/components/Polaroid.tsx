@@ -39,7 +39,7 @@ export default function Polaroid({ polaroid, tone = 'front', className = '', sty
         <img src={design.photo} alt={design.photoAlt} draggable={false} />
       </div>
       {stickers &&
-        design.stickers.map((s) => {
+        (polaroid.stickers ?? design.stickers).map((s) => {
           const k = getKeyword(s.keyword);
           if (!k) return null;
           const scale = s.w / 98;

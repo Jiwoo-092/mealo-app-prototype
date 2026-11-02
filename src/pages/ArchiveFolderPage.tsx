@@ -1,7 +1,7 @@
 import Icon from '../components/Icon';
 import SubHeader from '../components/SubHeader';
 import TabBar from '../components/TabBar';
-import { ARCHIVE_BY_KEYWORD, ARCHIVE_THUMB } from '../data/mock';
+import { ARCHIVE_BY_KEYWORD, MEAL_DESIGNS } from '../data/mock';
 import { formatShortDate, formatTime12, getKeyword, isKeywordId } from '../data/utils';
 import { ScrollArtboard } from '../lib/artboard';
 import { goBack, Link } from '../lib/router';
@@ -41,7 +41,7 @@ export default function ArchiveFolderPage({ keyword }: { keyword: string }) {
             <Link to={`/archive/polaroids/${p.id}`} className="kpolaroid" aria-label={`${p.title} 상세 보기`}>
               <span className="kpolaroid__card">
                 <span className="kpolaroid__photo">
-                  <img src={ARCHIVE_THUMB} alt="" draggable={false} />
+                  <img src={MEAL_DESIGNS[p.design].photo} alt={MEAL_DESIGNS[p.design].photoAlt} draggable={false} />
                 </span>
               </span>
               <span className="kpolaroid__meta">

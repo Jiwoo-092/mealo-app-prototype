@@ -1,5 +1,4 @@
 import SubHeader from '../components/SubHeader';
-import { CALENDAR_DAY_ITEMS } from '../data/mock';
 import { formatTime, isValidDate } from '../data/utils';
 import { goBack } from '../lib/router';
 import { usePolaroids } from '../store/PolaroidStore';
@@ -11,9 +10,10 @@ import NotFoundPage from './NotFoundPage';
  * 홈과 같은 폴라로이드 화면, 헤더 가운데는 선택한 날짜(11.25), 제목 위에는 시간만.
  */
 export default function ArchiveDayPage({ date }: { date: string }) {
-  const { getById } = usePolaroids();
+  const { archive } = usePolaroids();
   if (!isValidDate(date)) return <NotFoundPage message="올바르지 않은 날짜예요." />;
-  const items = CALENDAR_DAY_ITEMS.map(getById).filter((p) => p !== undefined);
+  // 캘린더에 기록된 그날의 끼니 (시간순)
+  const items = archive.filter((p) => p.id.startsWith('c-') && p.date === date).sort((a, b) => a.time.localeCompare(b.time));
   const title = `${date.slice(5, 7)}.${date.slice(8, 10)}`;
 
   return (

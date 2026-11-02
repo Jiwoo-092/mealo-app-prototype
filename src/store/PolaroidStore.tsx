@@ -1,5 +1,5 @@
 import { createContext, useCallback, useContext, useMemo, useState, type ReactNode } from 'react';
-import { ARCHIVE_POLAROIDS, POLAROIDS, type Polaroid } from '../data/mock';
+import { ARCHIVE_POLAROIDS, CALENDAR_POLAROIDS, POLAROIDS, type Polaroid } from '../data/mock';
 import { sortPolaroids } from '../data/utils';
 
 /**
@@ -9,6 +9,8 @@ import { sortPolaroids } from '../data/utils';
 interface PolaroidStore {
   /** 홈 하루 화면용 (최신순) */
   polaroids: Polaroid[];
+  /** 아카이브(키워드 폴더·캘린더) 기록 */
+  archive: Polaroid[];
   getById: (id: string) => Polaroid | undefined;
   update: (id: string, patch: Partial<Omit<Polaroid, 'id'>>) => void;
 }
@@ -17,8 +19,8 @@ const Ctx = createContext<PolaroidStore | null>(null);
 
 export function PolaroidProvider({ children }: { children: ReactNode }) {
   const [polaroids, setPolaroids] = useState<Polaroid[]>(() => sortPolaroids(POLAROIDS));
-  // 키워드 폴더 속 기록 — 홈 하루 화면에는 섞이지 않게 따로 보관
-  const [archive, setArchive] = useState<Polaroid[]>(ARCHIVE_POLAROIDS);
+  // 키워드 폴더·캘린더 속 기록 — 홈 하루 화면에는 섞이지 않게 따로 보관
+  const [archive, setArchive] = useState<Polaroid[]>(() => [...ARCHIVE_POLAROIDS, ...CALENDAR_POLAROIDS]);
 
   const getById = useCallback(
     (id: string) => polaroids.find((p) => p.id === id) ?? archive.find((p) => p.id === id),
@@ -31,7 +33,7 @@ export function PolaroidProvider({ children }: { children: ReactNode }) {
     setArchive(apply);
   }, []);
 
-  const value = useMemo(() => ({ polaroids, getById, update }), [polaroids, getById, update]);
+  const value = useMemo(() => ({ polaroids, archive, getById, update }), [polaroids, archive, getById, update]);
   return <Ctx.Provider value={value}>{children}</Ctx.Provider>;
 }
 
